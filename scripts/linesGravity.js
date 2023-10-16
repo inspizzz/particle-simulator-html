@@ -1,9 +1,14 @@
-G = 6.67408 * Math.pow(10, -6)
-dt = 20 // ms
-MAX_VEL = 100
-MAX_MASS = 1000000000000000
-MAX_FORCE = 100
-MAX_ACC = 200
+
+// constants to calculate inital state
+G = 6.67408 * Math.pow(10, -6) // modified to be to the power of -6 for ease
+MAX_VEL = 100 // pxs^-1
+MAX_MASS = 1000000000000000  // kg
+
+// max allowed acceleration
+MAX_ACC = 200 // pxs^-2
+
+// change in time ( smaller slower | bigger faster )
+dt = 8 // ms
 
 alreadyDrawn = []
 
@@ -11,7 +16,6 @@ function pause() {
     paused = !paused
     console.log("unpaused/paused")
 }
-
 
 // todo:
 // 1. add gravity of the cursor
@@ -58,49 +62,6 @@ class Canvas {
     }
 }
 
-class Pointer {
-
-    constructor() {
-
-        // the current position of the cursor
-        this.posX = 100
-        this.posY = 100
-        
-
-        this.mass = 1000000000000000
-
-        this.id = -1
-
-        window.addEventListener('mousemove', this.moved)
-    }
-
-    moved(event) {
-        
-        console.log("moved x -> ", event.clientX)
-        console.log("moved y -> ", event.clientY)
-
-        // get and update the position of the cursor
-        this.posX = event.clientX
-        this.posY = event.clientY
-    }
-
-    calcMove() {
-        // do nothing
-    }
-
-    move() {
-        // do nothing
-    }
-
-    static getInstance() {
-        if (!Pointer.instance) {
-            console.log("creating new instance of cursor")
-            Pointer.instance = new Pointer();
-        }
-        return Pointer.instance;
-    }
-}
-
 
 class Point {
     constructor(id) {
@@ -109,7 +70,6 @@ class Point {
 
         // get instance of the canvas and cursor
         this.canvas = Canvas.getInstance()
-        this.cursor = Pointer.getInstance()
 
         // the current position of the pixel
         this.posX = Math.random() * this.canvas.canvas.width
@@ -131,7 +91,7 @@ class Point {
         this.mass = Math.pow(Math.random()*10, parseInt(Math.random() * 16))
 
         // minimum distance between points
-        this.minDistance = 500
+        this.minDistance = 250
     }
 
     /**
@@ -144,16 +104,9 @@ class Point {
         let tmpForceY = 0
 
         let tmpPoints = [...points]
-        tmpPoints.push(this.cursor)
-
-        console.log(this.cursor.posX, " : ", this.cursor.posY)
 
         // go over each point and calculate the force by this point
         for (let j = 0 ; j < tmpPoints.length ; j++) {
-            
-            if (tmpPoints instanceof Pointer) {
-                console.log("pointer")
-            }
 
             // calculate distance between this point and the other point
             let dx = tmpPoints[j].posX - this.posX
@@ -383,8 +336,7 @@ class Point {
 
 // create points
 points = []
-numPoints = 20
-cursor = Pointer.getInstance()
+numPoints = 40
 let paused = false
 
 // list of objects in the canvas
