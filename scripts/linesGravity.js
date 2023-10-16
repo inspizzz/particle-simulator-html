@@ -280,7 +280,7 @@ class Point {
                 }
 
                 // draw a line between them
-                this.canvas.drawLine(this.posX, this.posY, points[i].posX, points[i].posY, (1 - (distance/this.minDistance)), parseInt((this.mass/MAX_MASS) * 255), parseInt((points[i].mass/MAX_MASS) * 255), 0)
+                this.canvas.drawLine(this.posX, this.posY, points[i].posX, points[i].posY, (0.25 - (distance/this.minDistance)/4), parseInt((this.mass/MAX_MASS) * 255), parseInt((points[i].mass/MAX_MASS) * 255), 0)
             }
 
             alreadyDrawn.push(this.id + points[i].id)
